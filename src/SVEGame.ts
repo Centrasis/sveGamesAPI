@@ -62,12 +62,13 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
         };
 
         this.socket.onmessage = function (event) {
-            self.handle(JSON.parse(event.data) as Action); 
+            self.handleIncoming(JSON.parse(event.data) as Action); 
         };
     }
 
     protected abstract onJoin(): void;
     protected abstract onAbort(reason: GameRejectReason): void;
+    protected abstract handleIncoming(action: Action): void;
     public handle(action: Action): void {
         this.socket.send(JSON.stringify(action));
     }

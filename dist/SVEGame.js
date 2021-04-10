@@ -39,7 +39,7 @@ var SVEGame = /** @class */ (function () {
             self.onAbort(event.code);
         };
         this.socket.onmessage = function (event) {
-            self.handle(JSON.parse(event.data));
+            self.handleIncoming(JSON.parse(event.data));
         };
     }
     SVEGame.prototype.handle = function (action) {
