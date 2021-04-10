@@ -2,9 +2,10 @@ import { SVEAccount } from "svebaselib";
 import { Action, IGameHandler } from "./SVEGameHandlerBase";
 import { SVEPlayer } from "./SVEPlayer";
 export declare enum GameState {
-    Waiting = 0,
-    Started = 1,
-    Finished = 2
+    UnReady = 0,
+    Ready = 1,
+    Playing = 2,
+    Finished = 3
 }
 export interface SVEGameInfo {
     name: string;

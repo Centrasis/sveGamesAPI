@@ -6,9 +6,10 @@ var SVEGameServer_1 = require("./SVEGameServer");
 var SVEPlayer_1 = require("./SVEPlayer");
 var GameState;
 (function (GameState) {
-    GameState[GameState["Waiting"] = 0] = "Waiting";
-    GameState[GameState["Started"] = 1] = "Started";
-    GameState[GameState["Finished"] = 2] = "Finished";
+    GameState[GameState["UnReady"] = 0] = "UnReady";
+    GameState[GameState["Ready"] = 1] = "Ready";
+    GameState[GameState["Playing"] = 2] = "Playing";
+    GameState[GameState["Finished"] = 3] = "Finished";
 })(GameState = exports.GameState || (exports.GameState = {}));
 var GameRejectReason;
 (function (GameRejectReason) {
