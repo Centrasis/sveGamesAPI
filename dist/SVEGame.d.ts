@@ -33,7 +33,7 @@ export declare abstract class SVEGame implements SVEGameInfo, IGameHandler {
     constructor(player: SVEAccount, info: SVEGameInfo);
     protected abstract onJoin(): void;
     protected abstract onAbort(reason: GameRejectReason): void;
-    abstract handle(action: Action): void;
+    handle(action: Action): void;
     getLocalPlayerName(): string;
     getLocalPlayer(): SVEPlayer;
     abstract getControllers(): any[];

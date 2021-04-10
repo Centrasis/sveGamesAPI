@@ -1,4 +1,5 @@
 import { rejects } from "assert";
+import { encode } from "punycode";
 import { SVEAccount, SVESystemInfo } from "svebaselib";
 import { hasOnlyExpressionInitializer } from "typescript";
 import { SVEGame, SVEGameInfo } from "./SVEGame";
@@ -28,6 +29,26 @@ export class SVEGameServer {
     public static hostGame(gi: SVEGameInfo): Promise<SVEGameInfo> {
         return new Promise<SVEGameInfo>((resolve, reject) => {
             fetch(SVESystemInfo.getGameRoot() + "/new?sessionID=" + encodeURI(gi.host.getInitializer().sessionID),
+            {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: gi as any
+            }).then((res) => {
+                if(res.status < 400) {
+                    resolve(gi);
+                } else {
+                    reject();
+                }
+            }, err => reject(err));
+        });
+    }
+
+    public static updateGame(gi: SVEGameInfo): Promise<SVEGameInfo> {
+        return new Promise<SVEGameInfo>((resolve, reject) => {
+            fetch(SVESystemInfo.getGameRoot() + "/update/" + encodeURI(gi.name) + "?sessionID=" + encodeURI(gi.host.getInitializer().sessionID),
             {
                 method: "PUT",
                 headers: {

@@ -22,7 +22,7 @@ var SVEGame = /** @class */ (function () {
         this.minPlayers = info.minPlayers;
         this.playersCount = info.playersCount;
         this.state = info.state;
-        this.socket = new WebSocket(SVESystemInfo.getGameRoot());
+        this.socket = new WebSocket(SVESystemInfo.getGameRoot(true));
         var self = this;
         this.socket.onopen = function (event) {
             self.onJoin();
@@ -34,9 +34,12 @@ var SVEGame = /** @class */ (function () {
             self.onAbort(event.code);
         };
         this.socket.onmessage = function (event) {
-            self.handle(event.data);
+            self.handle(JSON.parse(event.data));
         };
     }
+    SVEGame.prototype.handle = function (action) {
+        this.socket.send(JSON.stringify(action));
+    };
     SVEGame.prototype.getLocalPlayerName = function () {
         return this.localPlayer.getName();
     };

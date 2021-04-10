@@ -44,6 +44,25 @@ var SVEGameServer = /** @class */ (function () {
             }, function (err) { return reject(err); });
         });
     };
+    SVEGameServer.updateGame = function (gi) {
+        return new Promise(function (resolve, reject) {
+            fetch(svebaselib_1.SVESystemInfo.getGameRoot() + "/update/" + encodeURI(gi.name) + "?sessionID=" + encodeURI(gi.host.getInitializer().sessionID), {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: gi
+            }).then(function (res) {
+                if (res.status < 400) {
+                    resolve(gi);
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(err); });
+        });
+    };
     return SVEGameServer;
 }());
 exports.SVEGameServer = SVEGameServer;

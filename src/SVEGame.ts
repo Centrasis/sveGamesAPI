@@ -45,7 +45,7 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
         this.playersCount = info.playersCount;
         this.state = info.state;
 
-        this.socket = new WebSocket(SVESystemInfo.getGameRoot());
+        this.socket = new WebSocket(SVESystemInfo.getGameRoot(true));
         var self = this;
         this.socket.onopen = function (event) {
             self.onJoin();
@@ -60,13 +60,15 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
         };
 
         this.socket.onmessage = function (event) {
-            self.handle(event.data as Action);
+            self.handle(JSON.parse(event.data) as Action); 
         };
     }
 
     protected abstract onJoin(): void;
     protected abstract onAbort(reason: GameRejectReason): void;
-    public abstract handle(action: Action): void;
+    public handle(action: Action): void {
+        this.socket.send(JSON.stringify(action));
+    }
 
     public getLocalPlayerName(): string {
         return this.localPlayer.getName();
