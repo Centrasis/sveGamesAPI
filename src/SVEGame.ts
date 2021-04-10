@@ -4,8 +4,9 @@ import { SVEGameServer } from "./SVEGameServer";
 import { SVEPlayer } from "./SVEPlayer";
 
 export enum GameState {
-    Waiting,
-    Started,
+    UnReady,
+    Ready,
+    Playing,
     Finished
 }
 
