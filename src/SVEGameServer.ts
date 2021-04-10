@@ -27,6 +27,27 @@ export class SVEGameServer {
         });
     }
 
+    public static listPlayers(requester: SVEAccount, gameName: string): Promise<string[]> {
+        return new Promise<string[]>((resolve, reject) => {
+            fetch(SVESystemInfo.getGameRoot() + "/players/" + gameName + "?sessionID=" + encodeURI(requester.getInitializer().sessionID),
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                if(res.status < 400) {
+                    res.json().then(j => {
+                        resolve(j as string[]);
+                    }, err => reject(err));
+                } else {
+                    reject();
+                }
+            }, err => reject(err));
+        });
+    }
+
     public static hostGame(gi: SVEGameInfo): Promise<SVEGameInfo> {
         return new Promise<SVEGameInfo>((resolve, reject) => {
             fetch(SVESystemInfo.getGameRoot() + "/new?sessionID=" + encodeURI(gi.host.getInitializer().sessionID),

@@ -22,6 +22,26 @@ var SVEGameServer = /** @class */ (function () {
             }, function (err) { return reject(err); });
         });
     };
+    SVEGameServer.listPlayers = function (requester, gameName) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getGameRoot() + "/players/" + gameName + "?sessionID=" + encodeURI(requester.getInitializer().sessionID), {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (res) {
+                if (res.status < 400) {
+                    res.json().then(function (j) {
+                        resolve(j);
+                    }, function (err) { return reject(err); });
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(err); });
+        });
+    };
     SVEGameServer.hostGame = function (gi) {
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo.getGameRoot() + "/new?sessionID=" + encodeURI(gi.host.getInitializer().sessionID), {
