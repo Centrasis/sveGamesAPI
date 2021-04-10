@@ -4,7 +4,7 @@ import { SVEGameServer } from "./SVEGameServer";
 import { SVEPlayer } from "./SVEPlayer";
 
 export enum GameState {
-    UnReady,
+    UnReady = 0,
     Ready,
     Playing,
     Finished
@@ -21,7 +21,7 @@ export interface SVEGameInfo {
 }
 
 export enum GameRejectReason {
-    GameFull,
+    GameFull = 0,
     GameEnded,
     ServerError
 }
