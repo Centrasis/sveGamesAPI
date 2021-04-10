@@ -1,4 +1,5 @@
 import { SVESystemInfo } from "svebaselib";
+import { SVEGameServer } from "./SVEGameServer";
 import { SVEPlayer } from "./SVEPlayer";
 export var GameState;
 (function (GameState) {
@@ -45,6 +46,10 @@ var SVEGame = /** @class */ (function () {
     };
     SVEGame.prototype.getLocalPlayer = function () {
         return this.localPlayer;
+    };
+    SVEGame.prototype.endGame = function () {
+        this.state = GameState.Finished;
+        SVEGameServer.updateGame(this, this.localPlayer);
     };
     return SVEGame;
 }());

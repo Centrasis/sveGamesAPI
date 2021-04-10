@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SVEGame = exports.GameRejectReason = exports.GameState = void 0;
 var svebaselib_1 = require("svebaselib");
+var SVEGameServer_1 = require("./SVEGameServer");
 var SVEPlayer_1 = require("./SVEPlayer");
 var GameState;
 (function (GameState) {
@@ -48,6 +49,10 @@ var SVEGame = /** @class */ (function () {
     };
     SVEGame.prototype.getLocalPlayer = function () {
         return this.localPlayer;
+    };
+    SVEGame.prototype.endGame = function () {
+        this.state = GameState.Finished;
+        SVEGameServer_1.SVEGameServer.updateGame(this, this.localPlayer);
     };
     return SVEGame;
 }());

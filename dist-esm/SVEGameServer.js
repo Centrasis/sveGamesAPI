@@ -41,9 +41,9 @@ var SVEGameServer = /** @class */ (function () {
             }, function (err) { return reject(err); });
         });
     };
-    SVEGameServer.updateGame = function (gi) {
+    SVEGameServer.updateGame = function (gi, player) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getGameRoot() + "/update/" + encodeURI(gi.name) + "?sessionID=" + encodeURI(gi.host.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getGameRoot() + "/update/" + encodeURI(gi.name) + "?sessionID=" + encodeURI(player.getInitializer().sessionID), {
                 method: "PUT",
                 headers: {
                     'Accept': 'application/json',

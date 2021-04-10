@@ -3,6 +3,7 @@ import { encode } from "punycode";
 import { SVEAccount, SVESystemInfo } from "svebaselib";
 import { hasOnlyExpressionInitializer } from "typescript";
 import { SVEGame, SVEGameInfo } from "./SVEGame";
+import { SVEPlayer } from "./SVEPlayer";
 
 export class SVEGameServer {
     public static listGames(requester: SVEAccount): Promise<SVEGameInfo[]> {
@@ -46,9 +47,9 @@ export class SVEGameServer {
         });
     }
 
-    public static updateGame(gi: SVEGameInfo): Promise<SVEGameInfo> {
+    public static updateGame(gi: SVEGameInfo, player: SVEPlayer): Promise<SVEGameInfo> {
         return new Promise<SVEGameInfo>((resolve, reject) => {
-            fetch(SVESystemInfo.getGameRoot() + "/update/" + encodeURI(gi.name) + "?sessionID=" + encodeURI(gi.host.getInitializer().sessionID),
+            fetch(SVESystemInfo.getGameRoot() + "/update/" + encodeURI(gi.name) + "?sessionID=" + encodeURI(player.getInitializer().sessionID),
             {
                 method: "PUT",
                 headers: {

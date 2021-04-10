@@ -1,5 +1,6 @@
 import { SVEAccount, SVESystemInfo } from "svebaselib";
 import { Action, IGameHandler } from "./SVEGameHandlerBase";
+import { SVEGameServer } from "./SVEGameServer";
 import { SVEPlayer } from "./SVEPlayer";
 
 export enum GameState {
@@ -76,6 +77,11 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
 
     public getLocalPlayer(): SVEPlayer {
         return this.localPlayer;
+    }
+
+    public endGame(): void {
+        this.state = GameState.Finished;
+        SVEGameServer.updateGame(this, this.localPlayer);
     }
 
     public abstract getControllers(): any[];
