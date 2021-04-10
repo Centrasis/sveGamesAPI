@@ -39,6 +39,8 @@ export declare abstract class SVEGame implements SVEGameInfo, IGameHandler {
     getLocalPlayerName(): string;
     getLocalPlayer(): SVEPlayer;
     endGame(): void;
+    startGame(): Promise<void>;
+    setReady(): void;
     abstract getControllers(): any[];
 }
 //# sourceMappingURL=SVEGame.d.ts.map

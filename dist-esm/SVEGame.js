@@ -52,6 +52,19 @@ var SVEGame = /** @class */ (function () {
         this.state = GameState.Finished;
         SVEGameServer.updateGame(this, this.localPlayer);
     };
+    SVEGame.prototype.startGame = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.state = GameState.Playing;
+            SVEGameServer.updateGame(_this, _this.localPlayer).then(function () {
+                resolve();
+            }, function (err) { return reject(err); });
+        });
+    };
+    SVEGame.prototype.setReady = function () {
+        this.state = GameState.Ready;
+        SVEGameServer.updateGame(this, this.localPlayer);
+    };
     return SVEGame;
 }());
 export { SVEGame };

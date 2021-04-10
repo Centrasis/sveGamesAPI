@@ -86,5 +86,19 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
         SVEGameServer.updateGame(this, this.localPlayer);
     }
 
+    public startGame(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            this.state = GameState.Playing;
+            SVEGameServer.updateGame(this, this.localPlayer).then(()=> {
+                resolve();
+            }, err => reject(err))
+        });
+    }
+
+    public setReady() {
+        this.state = GameState.Ready;
+        SVEGameServer.updateGame(this, this.localPlayer);
+    }
+
     public abstract getControllers(): any[];
 }
