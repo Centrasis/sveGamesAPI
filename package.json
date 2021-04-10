@@ -1,0 +1,41 @@
+{
+  "name": "svegamesapi",
+  "version": "0.0.1",
+  "description": "Base Lib for the SVE Gaming API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "url": "https://github.com/ftl999/sveGamesAPI.git",
+    "type": "git"
+  },
+  "dependencies": {
+    "@types/node": "^14.6.0",
+    "compression": "^1.7.4",
+    "querystring": "^0.2.0",
+    "svebaselib": "git+https://github.com/ftl999/sveBaseLib.git",
+    "typescript": "^3.9.7",
+    "url": "^0.11.0"
+  },
+  "scripts": {
+    "tsc": "tsc -b && tsc -m es6 --outDir dist-esm",
+    "webpack": "npm run tsc && node build/build.js",
+    "build": "npm run tsc",
+    "prepare": "npm run tsc"
+  },
+  "author": "ftl999",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ftl999/sveGamesAPI/issues"
+  },
+  "homepage": "https://github.com/ftl999/sveGamesAPI#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "chalk": "^4.1.0",
+    "terser-webpack-plugin": "^4.1.0",
+    "typescript": "^3.9.7",
+    "webpack": "^4.44.1",
+    "rimraf": "^3.0.2",
+    "webpack-cli": "^3.3.12",
+    "ora": "^5.0.0"
+  }
+}

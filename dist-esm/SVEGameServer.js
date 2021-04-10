@@ -1,0 +1,46 @@
+import { SVESystemInfo } from "svebaselib";
+var SVEGameServer = /** @class */ (function () {
+    function SVEGameServer() {
+    }
+    SVEGameServer.listGames = function (requester) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getGameRoot() + "/list?sessionID=" + encodeURI(requester.getInitializer().sessionID), {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (res) {
+                if (res.status < 400) {
+                    res.json().then(function (j) {
+                        resolve(j);
+                    }, function (err) { return reject(err); });
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(err); });
+        });
+    };
+    SVEGameServer.hostGame = function (gi) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getGameRoot() + "/new?sessionID=" + encodeURI(gi.host.getInitializer().sessionID), {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: gi
+            }).then(function (res) {
+                if (res.status < 400) {
+                    resolve(gi);
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(err); });
+        });
+    };
+    return SVEGameServer;
+}());
+export { SVEGameServer };
