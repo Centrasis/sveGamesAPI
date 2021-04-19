@@ -4,14 +4,14 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: {
-      'svebaselib': './src/index.ts',
-      'svebaselib.min': './src/index.ts'
+      'svegamesapi': './src/index.ts',
+      'svegamesapi.min': './src/index.ts'
     },
     output: {
       path: path.resolve(__dirname, '_bundles'),
       filename: '[name].js',
       libraryTarget: 'umd',
-      library: 'SveBaseLib',
+      library: 'SveGamesAPI',
       umdNamedDefine: true
     },
     resolve: {
