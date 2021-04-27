@@ -10,6 +10,7 @@ export declare enum GameState {
 export interface SVEGameInfo {
     name: string;
     id: number;
+    type: string;
     host: SVEAccount;
     maxPlayers: number;
     minPlayers: number;
@@ -23,6 +24,7 @@ export declare enum GameRejectReason {
 }
 export declare abstract class SVEGame implements SVEGameInfo, IGameHandler {
     name: string;
+    type: string;
     id: number;
     host: SVEAccount;
     maxPlayers: number;
