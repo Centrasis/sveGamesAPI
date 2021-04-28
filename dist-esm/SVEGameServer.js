@@ -70,7 +70,7 @@ var SVEGameServer = /** @class */ (function () {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: {
+                body: JSON.stringify({
                     name: gi.name,
                     id: gi.id,
                     type: gi.type,
@@ -79,7 +79,7 @@ var SVEGameServer = /** @class */ (function () {
                     minPlayers: gi.minPlayers,
                     playersCount: gi.playersCount,
                     state: gi.state
-                }
+                })
             }).then(function (res) {
                 if (res.status < 400) {
                     resolve(gi);
@@ -98,7 +98,7 @@ var SVEGameServer = /** @class */ (function () {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: {
+                body: JSON.stringify({
                     name: gi.name,
                     id: gi.id,
                     type: gi.type,
@@ -107,7 +107,7 @@ var SVEGameServer = /** @class */ (function () {
                     minPlayers: gi.minPlayers,
                     playersCount: gi.playersCount,
                     state: gi.state
-                }
+                })
             }).then(function (res) {
                 if (res.status < 400) {
                     resolve(gi);
