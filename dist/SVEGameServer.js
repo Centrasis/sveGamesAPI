@@ -73,7 +73,16 @@ var SVEGameServer = /** @class */ (function () {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: gi
+                body: {
+                    name: gi.name,
+                    id: gi.id,
+                    type: gi.type,
+                    host: undefined,
+                    maxPlayers: gi.maxPlayers,
+                    minPlayers: gi.minPlayers,
+                    playersCount: gi.playersCount,
+                    state: gi.state
+                }
             }).then(function (res) {
                 if (res.status < 400) {
                     resolve(gi);
@@ -92,7 +101,16 @@ var SVEGameServer = /** @class */ (function () {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: gi
+                body: {
+                    name: gi.name,
+                    id: gi.id,
+                    type: gi.type,
+                    host: undefined,
+                    maxPlayers: gi.maxPlayers,
+                    minPlayers: gi.minPlayers,
+                    playersCount: gi.playersCount,
+                    state: gi.state
+                }
             }).then(function (res) {
                 if (res.status < 400) {
                     resolve(gi);
