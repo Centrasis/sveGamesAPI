@@ -28,7 +28,7 @@ var SVEGame = /** @class */ (function () {
         this.playersCount = info.playersCount;
         this.state = info.state;
         this.type = info.type;
-        this.socket = new WebSocket(svebaselib_1.SVESystemInfo.getGameRoot(true) + "/" + this.name + "?sessionID=" + player.getSessionID());
+        this.socket = new WebSocket(svebaselib_1.SVESystemInfo.getGameRoot(true) + "/" + this.name + "?sessionID=" + encodeURI(player.getSessionID()));
         var self = this;
         this.socket.onopen = function (event) {
             self.onJoin();
@@ -62,6 +62,47 @@ var SVEGame = /** @class */ (function () {
             _this.state = GameState.Playing;
             SVEGameServer_1.SVEGameServer.updateGame(_this, _this.localPlayer).then(function () {
                 resolve();
+            }, function (err) { return reject(err); });
+        });
+    };
+    SVEGame.prototype.getMetaInfos = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            fetch(svebaselib_1.SVESystemInfo.getGameRoot() + "/meta/" + _this.name + "?sessionID=" + encodeURI(_this.localPlayer.getSessionID()), {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (res) {
+                if (res.status < 400) {
+                    res.json().then(function (j) {
+                        resolve(j);
+                    }, function (err) { return reject(err); });
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(err); });
+        });
+    };
+    SVEGame.prototype.setMetaInfos = function (meta) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            fetch(svebaselib_1.SVESystemInfo.getGameRoot() + "/meta/" + _this.name + "?sessionID=" + encodeURI(_this.localPlayer.getSessionID()), {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(meta)
+            }).then(function (res) {
+                if (res.status < 300) {
+                    resolve();
+                }
+                else {
+                    reject();
+                }
             }, function (err) { return reject(err); });
         });
     };

@@ -7,7 +7,7 @@ var SVEGameServer = /** @class */ (function () {
     }
     SVEGameServer.listGames = function (requester) {
         return new Promise(function (resolve, reject) {
-            fetch(svebaselib_1.SVESystemInfo.getGameRoot() + "/list?sessionID=" + encodeURI(requester.getInitializer().sessionID), {
+            fetch(svebaselib_1.SVESystemInfo.getGameRoot() + "/list?sessionID=" + encodeURI(requester.getSessionID()), {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -27,7 +27,7 @@ var SVEGameServer = /** @class */ (function () {
     };
     SVEGameServer.listGameTypes = function (requester) {
         return new Promise(function (resolve, reject) {
-            fetch(svebaselib_1.SVESystemInfo.getGameRoot() + "/list/types?sessionID=" + encodeURI(requester.getInitializer().sessionID), {
+            fetch(svebaselib_1.SVESystemInfo.getGameRoot() + "/list/types?sessionID=" + encodeURI(requester.getSessionID()), {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -47,7 +47,7 @@ var SVEGameServer = /** @class */ (function () {
     };
     SVEGameServer.listPlayers = function (requester, gameName) {
         return new Promise(function (resolve, reject) {
-            fetch(svebaselib_1.SVESystemInfo.getGameRoot() + "/players/" + gameName + "?sessionID=" + encodeURI(requester.getInitializer().sessionID), {
+            fetch(svebaselib_1.SVESystemInfo.getGameRoot() + "/players/" + gameName + "?sessionID=" + encodeURI(requester.getSessionID()), {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',

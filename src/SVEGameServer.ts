@@ -8,7 +8,7 @@ import { SVEPlayer } from "./SVEPlayer";
 export class SVEGameServer {
     public static listGames(requester: SVEAccount): Promise<SVEGameInfo[]> {
         return new Promise<SVEGameInfo[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getGameRoot() + "/list?sessionID=" + encodeURI(requester.getInitializer().sessionID),
+            fetch(SVESystemInfo.getGameRoot() + "/list?sessionID=" + encodeURI(requester.getSessionID()),
             {
                 method: "GET",
                 headers: {
@@ -29,7 +29,7 @@ export class SVEGameServer {
 
     public static listGameTypes(requester: SVEAccount): Promise<string[]> {
         return new Promise<string[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getGameRoot() + "/list/types?sessionID=" + encodeURI(requester.getInitializer().sessionID),
+            fetch(SVESystemInfo.getGameRoot() + "/list/types?sessionID=" + encodeURI(requester.getSessionID()),
             {
                 method: "GET",
                 headers: {
@@ -50,7 +50,7 @@ export class SVEGameServer {
 
     public static listPlayers(requester: SVEAccount, gameName: string): Promise<string[]> {
         return new Promise<string[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getGameRoot() + "/players/" + gameName + "?sessionID=" + encodeURI(requester.getInitializer().sessionID),
+            fetch(SVESystemInfo.getGameRoot() + "/players/" + gameName + "?sessionID=" + encodeURI(requester.getSessionID()),
             {
                 method: "GET",
                 headers: {

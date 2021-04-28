@@ -42,6 +42,8 @@ export declare abstract class SVEGame implements SVEGameInfo, IGameHandler {
     getLocalPlayer(): SVEPlayer;
     endGame(): void;
     startGame(): Promise<void>;
+    getMetaInfos(): Promise<any>;
+    setMetaInfos(meta: any): Promise<void>;
     setReady(): void;
     abstract getControllers(): any[];
 }

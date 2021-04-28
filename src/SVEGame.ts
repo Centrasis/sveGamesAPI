@@ -50,7 +50,7 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
         this.state = info.state;
         this.type = info.type;
 
-        this.socket = new WebSocket(SVESystemInfo.getGameRoot(true) + "/" + this.name + "?sessionID=" + player.getSessionID());
+        this.socket = new WebSocket(SVESystemInfo.getGameRoot(true) + "/" + this.name + "?sessionID=" + encodeURI(player.getSessionID()));
         var self = this;
         this.socket.onopen = function (event) {
             self.onJoin();
@@ -96,6 +96,47 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
                 resolve();
             }, err => reject(err))
         });
+    }
+
+    public getMetaInfos(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            fetch(SVESystemInfo.getGameRoot() + "/meta/" + this.name + "?sessionID=" + encodeURI(this.localPlayer.getSessionID()),
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                if(res.status < 400) {
+                    res.json().then(j => {
+                        resolve(j as any);
+                    }, err => reject(err));
+                } else {
+                    reject();
+                }
+            }, err => reject(err));
+        }); 
+    }
+
+    public setMetaInfos(meta: any): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            fetch(SVESystemInfo.getGameRoot() + "/meta/" + this.name + "?sessionID=" + encodeURI(this.localPlayer.getSessionID()),
+            {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(meta)
+            }).then((res) => {
+                if(res.status < 300) {
+                    resolve();
+                } else {
+                    reject();
+                }
+            }, err => reject(err));
+        }); 
     }
 
     public setReady() {
