@@ -1,7 +1,7 @@
 import { rejects } from "assert";
 import { encode } from "punycode";
 import { SVEAccount, SVESystemInfo } from "svebaselib";
-import { hasOnlyExpressionInitializer } from "typescript";
+import { getEmitHelpers, hasOnlyExpressionInitializer } from "typescript";
 import { SVEGame, SVEGameInfo } from "./SVEGame";
 import { SVEPlayer } from "./SVEPlayer";
 
@@ -71,7 +71,7 @@ export class SVEGameServer {
 
     public static hostGame(gi: SVEGameInfo): Promise<SVEGameInfo> {
         return new Promise<SVEGameInfo>((resolve, reject) => {
-            fetch(SVESystemInfo.getGameRoot() + "/new?sessionID=" + encodeURI(gi.host!.getInitializer().sessionID),
+            fetch(SVESystemInfo.getGameRoot() + "/new?sessionID=" + encodeURI((gi.host as SVEAccount).getInitializer().sessionID),
             {
                 method: "PUT",
                 headers: {
@@ -82,7 +82,7 @@ export class SVEGameServer {
                     name: gi.name,
                     id: gi.id,
                     type: gi.type,
-                    host: undefined,
+                    host: (typeof gi.host !== "string") ? gi.host.getName() : gi.host,
                     maxPlayers: gi.maxPlayers,
                     minPlayers: gi.minPlayers,
                     playersCount: gi.playersCount,
@@ -111,7 +111,7 @@ export class SVEGameServer {
                     name: gi.name,
                     id: gi.id,
                     type: gi.type,
-                    host: undefined,
+                    host: gi.name,
                     maxPlayers: gi.maxPlayers,
                     minPlayers: gi.minPlayers,
                     playersCount: gi.playersCount,
