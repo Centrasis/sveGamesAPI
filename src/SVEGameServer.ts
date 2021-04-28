@@ -111,7 +111,7 @@ export class SVEGameServer {
                     name: gi.name,
                     id: gi.id,
                     type: gi.type,
-                    host: gi.name,
+                    host: (typeof gi.host !== "string") ? gi.host.getName() : gi.host,
                     maxPlayers: gi.maxPlayers,
                     minPlayers: gi.minPlayers,
                     playersCount: gi.playersCount,
