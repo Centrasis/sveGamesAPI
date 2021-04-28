@@ -71,7 +71,7 @@ export class SVEGameServer {
 
     public static hostGame(gi: SVEGameInfo): Promise<SVEGameInfo> {
         return new Promise<SVEGameInfo>((resolve, reject) => {
-            fetch(SVESystemInfo.getGameRoot() + "/new?sessionID=" + encodeURI(gi.host.getInitializer().sessionID),
+            fetch(SVESystemInfo.getGameRoot() + "/new?sessionID=" + encodeURI(gi.host!.getInitializer().sessionID),
             {
                 method: "PUT",
                 headers: {

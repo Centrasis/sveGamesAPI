@@ -14,7 +14,7 @@ export interface SVEGameInfo {
     name: string;
     id: number;
     type: string;
-    host: SVEAccount;
+    host: SVEAccount | undefined;
     maxPlayers: number;
     minPlayers: number;
     playersCount: number;
@@ -31,7 +31,7 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
     public name: string;
     public type: string;
     public id: number;
-    public host: SVEAccount;
+    public host: SVEAccount | undefined;
     public maxPlayers: number;
     public minPlayers: number;
     public playersCount: number;
