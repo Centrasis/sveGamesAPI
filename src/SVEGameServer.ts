@@ -78,7 +78,16 @@ export class SVEGameServer {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: gi as any
+                body: {
+                    name: gi.name,
+                    id: gi.id,
+                    type: gi.type,
+                    host: undefined,
+                    maxPlayers: gi.maxPlayers,
+                    minPlayers: gi.minPlayers,
+                    playersCount: gi.playersCount,
+                    state: gi.state
+                } as any
             }).then((res) => {
                 if(res.status < 400) {
                     resolve(gi);
@@ -98,7 +107,16 @@ export class SVEGameServer {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: gi as any
+                body: {
+                    name: gi.name,
+                    id: gi.id,
+                    type: gi.type,
+                    host: undefined,
+                    maxPlayers: gi.maxPlayers,
+                    minPlayers: gi.minPlayers,
+                    playersCount: gi.playersCount,
+                    state: gi.state
+                } as any
             }).then((res) => {
                 if(res.status < 400) {
                     resolve(gi);
