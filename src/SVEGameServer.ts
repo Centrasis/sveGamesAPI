@@ -1,5 +1,5 @@
 import { SVEAccount, SVESystemInfo } from "svebaselib";
-import { SVEGameInfo } from "./SVEGame";
+import { SVEGameInfo, SVEStaticGameInfo } from "./SVEGame";
 import { SVEPlayer } from "./SVEPlayer";
 
 export class SVEGameServer {
@@ -24,8 +24,8 @@ export class SVEGameServer {
         });
     }
 
-    public static listGameTypes(requester: SVEAccount): Promise<string[]> {
-        return new Promise<string[]>((resolve, reject) => {
+    public static listGameTypes(requester: SVEAccount): Promise<SVEStaticGameInfo[]> {
+        return new Promise<SVEStaticGameInfo[]>((resolve, reject) => {
             fetch(SVESystemInfo.getGameRoot() + "/list/types?sessionID=" + encodeURI(requester.getSessionID()),
             {
                 method: "GET",
@@ -36,7 +36,7 @@ export class SVEGameServer {
             }).then((res) => {
                 if(res.status < 400) {
                     res.json().then(j => {
-                        resolve(j as string[]);
+                        resolve(j as SVEStaticGameInfo[]);
                     }, err => reject(err));
                 } else {
                     reject();

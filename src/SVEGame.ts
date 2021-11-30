@@ -10,13 +10,17 @@ export enum GameState {
     Finished
 }
 
-export interface SVEGameInfo {
-    name: string;
-    id: number;
+export interface SVEStaticGameInfo {
+    assetPath: string;
     type: string;
-    host: SVEAccount | string;
     maxPlayers: number;
     minPlayers: number;
+}
+
+export interface SVEGameInfo extends SVEStaticGameInfo {
+    name: string;
+    id: number;
+    host: SVEAccount | string;
     playersCount: number;
     state: GameState;
 }
@@ -30,6 +34,7 @@ export enum GameRejectReason {
 export abstract class SVEGame implements SVEGameInfo, IGameHandler {
     public name: string;
     public type: string;
+    public assetPath: string;
     public id: number;
     public host: SVEAccount | string;
     public maxPlayers: number;
@@ -49,6 +54,7 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
         this.playersCount = info.playersCount;
         this.state = info.state;
         this.type = info.type;
+        this.assetPath = info.assetPath;
 
         this.socket = new WebSocket(SVESystemInfo.getGameRoot(true).replace("://", "://" + "sessionID:" + player.getSessionID() + "@") + "/" + this.name);
         var self = this;

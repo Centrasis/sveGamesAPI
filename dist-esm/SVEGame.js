@@ -25,6 +25,7 @@ var SVEGame = /** @class */ (function () {
         this.playersCount = info.playersCount;
         this.state = info.state;
         this.type = info.type;
+        this.assetPath = info.assetPath;
         this.socket = new WebSocket(SVESystemInfo.getGameRoot(true).replace("://", "://" + "sessionID:" + player.getSessionID() + "@") + "/" + this.name);
         var self = this;
         this.socket.onopen = function (event) {
