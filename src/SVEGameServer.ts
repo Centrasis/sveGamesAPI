@@ -77,6 +77,7 @@ export class SVEGameServer {
                 },
                 body: JSON.stringify({
                     name: gi.name,
+                    assetPath: gi.assetPath,
                     id: gi.id,
                     type: gi.type,
                     host: (typeof gi.host !== "string") ? gi.host.getName() : gi.host,
@@ -87,11 +88,16 @@ export class SVEGameServer {
                 })
             }).then((res) => {
                 if(res.status < 400) {
+                    console.log("Game created successfully!");
                     resolve(gi);
                 } else {
+                    console.log("Game creation was rejected!");
                     reject({reason: "Server rejected"});
                 }
-            }, err => reject({reason: err}));
+            }, err => {
+                console.log("Unkown connection error!", err);
+                reject({reason: err})
+            });
         });
     }
 

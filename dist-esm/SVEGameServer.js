@@ -72,6 +72,7 @@ var SVEGameServer = /** @class */ (function () {
                 },
                 body: JSON.stringify({
                     name: gi.name,
+                    assetPath: gi.assetPath,
                     id: gi.id,
                     type: gi.type,
                     host: (typeof gi.host !== "string") ? gi.host.getName() : gi.host,
@@ -82,12 +83,17 @@ var SVEGameServer = /** @class */ (function () {
                 })
             }).then(function (res) {
                 if (res.status < 400) {
+                    console.log("Game created successfully!");
                     resolve(gi);
                 }
                 else {
+                    console.log("Game creation was rejected!");
                     reject({ reason: "Server rejected" });
                 }
-            }, function (err) { return reject({ reason: err }); });
+            }, function (err) {
+                console.log("Unkown connection error!", err);
+                reject({ reason: err });
+            });
         });
     };
     SVEGameServer.updateGame = function (gi, player) {
