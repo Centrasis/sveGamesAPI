@@ -89,9 +89,9 @@ export class SVEGameServer {
                 if(res.status < 400) {
                     resolve(gi);
                 } else {
-                    reject();
+                    reject({reason: "Server rejected"});
                 }
-            }, err => reject(err));
+            }, err => reject({reason: err}));
         });
     }
 

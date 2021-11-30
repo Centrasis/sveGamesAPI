@@ -85,9 +85,9 @@ var SVEGameServer = /** @class */ (function () {
                     resolve(gi);
                 }
                 else {
-                    reject();
+                    reject({ reason: "Server rejected" });
                 }
-            }, function (err) { return reject(err); });
+            }, function (err) { return reject({ reason: err }); });
         });
     };
     SVEGameServer.updateGame = function (gi, player) {
