@@ -1,8 +1,5 @@
-import { rejects } from "assert";
-import { encode } from "punycode";
 import { SVEAccount, SVESystemInfo } from "svebaselib";
-import { getEmitHelpers, hasOnlyExpressionInitializer } from "typescript";
-import { SVEGame, SVEGameInfo } from "./SVEGame";
+import { SVEGameInfo } from "./SVEGame";
 import { SVEPlayer } from "./SVEPlayer";
 
 export class SVEGameServer {
