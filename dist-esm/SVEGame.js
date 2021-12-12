@@ -27,7 +27,7 @@ var SVEGame = /** @class */ (function () {
         this.state = info.state;
         this.type = info.type;
         this.assetPath = info.assetPath;
-        var target = SVESystemInfo.getGameRoot(true) + "/" + this.name + "?sessionID=" + encodeURI(player.getSessionID());
+        var target = SVESystemInfo.getGameRoot(true) + "?gid=" + this.name + "&sessionID=" + encodeURI(player.getSessionID());
         console.log("Attempting to connect with game at:", target);
         this.socket = SocketIO(target);
         var self = this;
