@@ -1,6 +1,7 @@
 import { SVESystemInfo } from "svebaselib";
 import { SVEGameServer } from "./SVEGameServer";
 import { SVEPlayer } from "./SVEPlayer";
+import SocketIO from "socket.io-client";
 export var GameState;
 (function (GameState) {
     GameState[GameState["UnReady"] = 0] = "UnReady";
@@ -28,21 +29,39 @@ var SVEGame = /** @class */ (function () {
         this.assetPath = info.assetPath;
         var target = SVESystemInfo.getGameRoot(true) + "/" + this.name + "?sessionID=" + encodeURI(player.getSessionID());
         console.log("Attempting to connect with game at:", target);
-        this.socket = new WebSocket(target);
+        this.socket = SocketIO(target);
         var self = this;
-        this.socket.onopen = function (event) {
+        this.socket.on("connect", function () {
             self.onJoin();
-        };
-        this.socket.onerror = function (event) {
+        });
+        this.socket.on("error", function (event) {
+            console.log("Socket error: ", event);
             self.onAbort(GameRejectReason.ServerError);
-        };
-        this.socket.onclose = function (event) {
-            self.onAbort(event.code);
-        };
-        this.socket.onmessage = function (event) {
-            self.handleIncoming(JSON.parse(event.data));
-        };
+        });
+        this.socket.on("disconnect", function (event) {
+            self.onAbort(SVEGame.str2GameRejectReason(event));
+        });
+        this.socket.on("message", function (event) {
+            self.handleIncoming(JSON.parse(event));
+        });
+        this.socket.connect();
     }
+    SVEGame.str2GameRejectReason = function (str) {
+        switch (str) {
+            case "GameEnded":
+                return GameRejectReason.GameEnded;
+                break;
+            case "ServerError":
+                return GameRejectReason.ServerError;
+                break;
+            case "GameFull":
+                return GameRejectReason.GameFull;
+                break;
+            default:
+                return GameRejectReason.ServerError;
+                break;
+        }
+    };
     SVEGame.prototype.handle = function (action) {
         this.socket.send(JSON.stringify(action));
     };

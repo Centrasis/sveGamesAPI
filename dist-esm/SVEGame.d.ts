@@ -1,6 +1,7 @@
 import { SVEAccount } from "svebaselib";
 import { Action, IGameHandler } from "./SVEGameHandlerBase";
 import { SVEPlayer } from "./SVEPlayer";
+import { Socket } from "socket.io-client";
 export declare enum GameState {
     UnReady = 0,
     Ready = 1,
@@ -36,7 +37,8 @@ export declare abstract class SVEGame implements SVEGameInfo, IGameHandler {
     playersCount: number;
     state: GameState;
     protected localPlayer: SVEPlayer;
-    protected socket: WebSocket;
+    protected socket: Socket;
+    protected static str2GameRejectReason(str: string): GameRejectReason;
     constructor(player: SVEAccount, info: SVEGameInfo);
     protected abstract onJoin(): void;
     protected abstract onAbort(reason: GameRejectReason): void;

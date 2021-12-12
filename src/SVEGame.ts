@@ -2,6 +2,7 @@ import { SVEAccount, SVESystemInfo } from "svebaselib";
 import { Action, IGameHandler } from "./SVEGameHandlerBase";
 import { SVEGameServer } from "./SVEGameServer";
 import { SVEPlayer } from "./SVEPlayer";
+import SocketIO, {Socket} from "socket.io-client";
 
 export enum GameState {
     UnReady = 0,
@@ -42,7 +43,27 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
     public playersCount: number;
     public state: GameState;
     protected localPlayer: SVEPlayer;
-    protected socket: WebSocket;
+    protected socket: Socket;
+
+    protected static str2GameRejectReason(str: string): GameRejectReason {
+        switch (str) {
+            case "GameEnded":
+                return GameRejectReason.GameEnded;
+                break;
+
+            case "ServerError":
+                return GameRejectReason.ServerError;
+                break;
+
+            case "GameFull":
+                return GameRejectReason.GameFull;
+                break;
+        
+            default:
+                return GameRejectReason.ServerError;
+                break;
+        }
+    }
 
     constructor(player: SVEAccount, info: SVEGameInfo) {
         this.localPlayer = new SVEPlayer(player);
@@ -58,23 +79,26 @@ export abstract class SVEGame implements SVEGameInfo, IGameHandler {
 
         const target = SVESystemInfo.getGameRoot(true) + "/" + this.name + "?sessionID=" + encodeURI(player.getSessionID());
         console.log("Attempting to connect with game at:", target);
-        this.socket = new WebSocket(target);
-        var self = this;
-        this.socket.onopen = function (event) {
+        this.socket = SocketIO(target);
+        const self = this;
+        this.socket.on("connect", () => {
             self.onJoin();
-        };
+        });
 
-        this.socket.onerror = function (event) {
+        this.socket.on("error", (event) => {
+            console.log("Socket error: ", event);
             self.onAbort(GameRejectReason.ServerError);
-        };
+        });
 
-        this.socket.onclose = function (event) {
-            self.onAbort(event.code as GameRejectReason);
-        };
+        this.socket.on("disconnect", (event) => {
+            self.onAbort(SVEGame.str2GameRejectReason(event));
+        });
 
-        this.socket.onmessage = function (event) {
-            self.handleIncoming(JSON.parse(event.data) as Action); 
-        };
+        this.socket.on("message", (event) => {
+            self.handleIncoming(JSON.parse(event) as Action); 
+        });
+
+        this.socket.connect();
     }
 
     protected abstract onJoin(): void;
